@@ -9,18 +9,22 @@ async function checkLiveStreamers() {
     };
 
     try {
-        const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamers.join('&user_login=')}`, { 
-            headers,
-            cache: 'no-store'
-        });
+        // First get the stream info
+        const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamers.join('&user_login=')}`, { headers });
         const data = await response.json();
+        
         if (data.data && data.data.length > 0) {
-            const streamData = await fetch(`https://api.twitch.tv/helix/videos?user_id=${data.data[0].user_id}`, { headers });
-            const videoData = await streamData.json();
-            return videoData.data[0].url;
+            // Get the access token for this stream
+            const tokenResponse = await fetch(`https://api.twitch.tv/helix/channels/access_token?channel_name=${data.data[0].user_login}`, { headers });
+            const tokenData = await tokenResponse.json();
+            
+            // Get the m3u8 URL
+            const m3u8Response = await fetch(`https://usher.ttvnw.net/api/channel/hls/${data.data[0].user_login}.m3u8?client_id=${clientId}&token=${tokenData.token}&sig=${tokenData.sig}`);
+            return m3u8Response.url;
         }
         return null;
     } catch (error) {
+        console.log('Stream fetch error:', error);
         return null;
     }
 }
