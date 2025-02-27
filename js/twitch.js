@@ -9,18 +9,32 @@ async function checkLiveStreamers() {
     };
 
     try {
-        // First get the stream info
+        // Get stream info
         const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamers.join('&user_login=')}`, { headers });
         const data = await response.json();
         
         if (data.data && data.data.length > 0) {
-            // Get the access token for this stream
-            const tokenResponse = await fetch(`https://api.twitch.tv/helix/channels/access_token?channel_name=${data.data[0].user_login}`, { headers });
+            // Get stream access token
+            const tokenResponse = await fetch(`https://gql.twitch.tv/gql`, {
+                method: 'POST',
+                headers: {
+                    'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: `{
+                        streamPlaybackAccessToken(channelName: "${data.data[0].user_login}", params: {platform: "web", playerType: "site"}) {
+                            value
+                            signature
+                        }
+                    }`
+                })
+            });
             const tokenData = await tokenResponse.json();
             
-            // Get the m3u8 URL
-            const m3u8Response = await fetch(`https://usher.ttvnw.net/api/channel/hls/${data.data[0].user_login}.m3u8?client_id=${clientId}&token=${tokenData.token}&sig=${tokenData.sig}`);
-            return m3u8Response.url;
+            // Get HLS URL
+            const hlsUrl = `https://usher.ttvnw.net/api/channel/hls/${data.data[0].user_login}.m3u8?client_id=${clientId}&token=${tokenData.data.streamPlaybackAccessToken.value}&sig=${tokenData.data.streamPlaybackAccessToken.signature}`;
+            return hlsUrl;
         }
         return null;
     } catch (error) {
