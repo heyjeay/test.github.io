@@ -43,7 +43,8 @@ function updateStreamDisplay() {
                 autoplay: true,
                 muted: true,
                 parent: ["heyjeay.github.io/test.github.io"],
-                controls: true
+                controls: true,
+                matureContent: true
             });
         } else {
             twitchContainer.style.display = 'none';
