@@ -1,21 +1,25 @@
 const streamers = ['penta', 'shroud', 'dgthe99', 'teegrizzley', 'prawln', 'richopov'];
 
 async function checkLiveStreamers() {
-    const clientId = 'gp762nuuoqcoxypju8c569th9wz7q5';
-    const accessToken = 'g8h3swjn3jsz531hgvb6auian7ep4a';
+    // Get your credentials from https://dev.twitch.tv/console
+    const clientId = 'YOUR_CLIENT_ID_HERE';
+    const accessToken = 'YOUR_ACCESS_TOKEN_HERE';
     const headers = { 
         'Client-ID': clientId, 
-        'Authorization': `Bearer ${accessToken}`
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
     };
 
     try {
-        const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamers.join('&user_login=')}`, { 
-            headers,
-            cache: 'no-store'
-        });
+        const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamers.join('&user_login=')}`, { headers });
         const data = await response.json();
-        return (data.data && data.data.length > 0) ? data.data[0].user_login : null;
+
+        if (data.data && data.data.length > 0) {
+            return data.data[0].user_login;
+        }
+        return null;
     } catch (error) {
+        console.log('Switching to fallback video');
         return null;
     }
 }
