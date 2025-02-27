@@ -7,14 +7,16 @@ async function checkLiveStreamers() {
         'Client-ID': clientId, 
         'Authorization': `Bearer ${accessToken}`,
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': 'true'
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
     };
 
     try {
         const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamers.join('&user_login=')}`, { 
+            method: 'GET',
             headers,
-            credentials: 'same-origin',
-            mode: 'cors'
+            mode: 'cors',
+            credentials: 'same-origin'
         });
         const data = await response.json();
         return (data.data && data.data.length > 0) ? data.data[0].user_login : null;
@@ -39,8 +41,9 @@ function updateStreamDisplay() {
                 channel: liveStreamer,
                 layout: "video",
                 autoplay: true,
-                muted: false,
-                parent: ["heyjeay.github.io"]
+                muted: true,
+                parent: ["heyjeay.github.io"],
+                controls: true
             });
         } else {
             twitchContainer.style.display = 'none';
