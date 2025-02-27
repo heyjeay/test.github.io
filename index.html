@@ -1,67 +1,49 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>KRPLoadingScreen</title>
+    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        * { margin: 0; padding: 0; overflow: hidden; }
+        html, body { width: 100vw; height: 100vh; background: black; }
+        #overlay { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; }
+        .fullscreen-bg { position: absolute; width: 100%; height: 100%; }
+        .videoContainer, #twitch-embed { width: 100vw; height: 100vh; position: absolute; }
+        iframe { width: 100%; height: 100%; border: none; }
+        img { position: absolute; top: 10px; left: 10px; width: 150px; }
+    </style>
 </head>
-
 <body>
+
     <div id="balls" style="opacity: 0;"></div>
-    <h2 
-id="RM_FadeInOutContentDiv">
-    </h2>
+    <h2 id="RM_FadeInOutContentDiv"></h2>
+
+    <!-- Background Twitch/YouTube Container -->
+    <div id="overlay">
+        <div class="fullscreen-bg">
+            <div id="twitch-embed"></div>
+            <div class="videoContainer" id="fallbackVideo">
+                <iframe width="1920" height="1080"
+                    src="https://www.youtube.com/embed/-InoH7TEPXE?modestbranding=1&autoplay=1&controls=0&fs=0&loop=1&rel=0&showinfo=0&disablekb=0&mute=1"
+                    frameborder="0">
+                </iframe>
+            </div>
+        </div>
     </div>
-<!-- BACKGROUND VIDEO -->
-<div id="overlay">
-<div class="fullscreen-bg">
-    <div class="videoContainer">
-        <iframe class="videoContainer__video" width="1920" height="1080" src="https://www.youtube.com/embed/-InoH7TEPXE?modestbranding=1&autoplay=1&controls=0&fs=0&loop=1&rel=0&showinfo=0&disablekb=0&mute=1" frameborder="0"></iframe>
-    </div>
-</div>
-</div>
-<!-- END BG VIDEO -->
-<!-- LOGO -->
 
-<img src="assets/logo.png" alt="" />
-</div>
-<!-- END LOGO -->
-<!-- BG AUDIO -->
-<script src="./script.js"></script>
-<audio id="music" src="assets/music.mp3" autoplay="true" hidden="true" loop="true" />
-<script>
-    var play = true;
-    var myAudio = document.getElementById("music");
-    myAudio.volume = 0.3;
+    <!-- Logo -->
+    <img src="assets/logo.png" alt="Logo" />
 
-    function onKeyDown(event) {
-        switch (event.keyCode) {
-             case 32: //SpaceBar                    
-                if (play) {
-                    myAudio.pause();
-                    play = false;
-                } else {
-                    myAudio.play();
-                    play = true;
-                }
-                break;
-        }
-        return false;
-    }
-    window.addEventListener("keydown", onKeyDown, false);
+    <!-- Background Audio -->
+    <audio id="music" src="assets/music.mp3" autoplay="true" hidden="true" loop="true"></audio>
 
-    function onPopup(event) {
-        switch (event.keyCode) {
-             case 80: //P                    
-                popup.openPopup()
-        }
-        return false;
-    }
-    window.addEventListener("keydown", onPopup, false);
-</script>
-
-<!-- END BG AUDIO -->
-<!-- START JS -->
+    <!-- JavaScript -->
+    <script src="./script.js"></script>
     <script src="js/main.js"></script>
-<!-- END JS -->    
+    <script src="js/twitch.js"></script>
 
 </body>
 </html>
