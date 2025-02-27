@@ -2,8 +2,8 @@ const streamers = ['penta', 'shroud', 'dgthe99', 'teegrizzley', 'prawln', 'richo
 
 async function checkLiveStreamers() {
     // Get your credentials from https://dev.twitch.tv/console
-    const clientId = 'YOUR_CLIENT_ID_HERE';
-    const accessToken = 'YOUR_ACCESS_TOKEN_HERE';
+    const clientId = 'gp762nuuoqcoxypju8c569th9wz7q5';
+    const accessToken = 'g8h3swjn3jsz531hgvb6auian7ep4a';
     const headers = { 
         'Client-ID': clientId, 
         'Authorization': `Bearer ${accessToken}`,
