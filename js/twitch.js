@@ -3,12 +3,15 @@ const streamers = ['penta', 'shroud', 'dgthe99','teegrizzley','prawln','richopov
 async function checkLiveStreamers() {
     const clientId = 'gp762nuuoqcoxypju8c569th9wz7q5';
     const accessToken = 'g8h3swjn3jsz531hgvb6auian7ep4a';
-
     const headers = { 'Client-ID': clientId, 'Authorization': `Bearer ${accessToken}` };
 
     try {
         console.log('Checking Twitch live streams...');
-        const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamers.join('&user_login=')}`, { headers: headers });
+        const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamers.join('&user_login=')}`, {
+            headers: headers,
+            retry: 3,
+            retryDelay: 1000
+        });
         const data = await response.json();
         console.log('Live Stream Check:', data);
 
@@ -19,7 +22,8 @@ async function checkLiveStreamers() {
         console.log('No live streamers found.');
         return null;
     } catch (error) {
-        console.error('Error checking Twitch streams:', error);
+        console.warn('Twitch API rate limit reached, retrying in 60s');
+        setTimeout(checkLiveStreamers, 60000);
         return null;
     }
 }
