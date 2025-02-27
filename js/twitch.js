@@ -29,12 +29,12 @@ function updateStreamDisplay() {
             fallbackVideo.style.display = 'none';
             twitchContainer.style.display = 'block';
             twitchContainer.innerHTML = `
-                <iframe
-                    src="https://player.twitch.tv/?channel=${liveStreamer}&parent=heyjeay.github.io&muted=true"
-                    height="100%"
-                    width="100%"
-                    allowfullscreen>
-                </iframe>`;
+            <iframe
+                src="https://player.twitch.tv/?channel=${liveStreamer}&parent=heyjeay.github.io&muted=true&mature=true"
+                height="100%"
+                width="100%"
+                allowfullscreen>
+            </iframe>`;
         } else {
             twitchContainer.style.display = 'none';
             fallbackVideo.style.display = 'block';
