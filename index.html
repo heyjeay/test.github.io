@@ -1,0 +1,67 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="balls" style="opacity: 0;"></div>
+    <h2 
+id="RM_FadeInOutContentDiv">
+    </h2>
+    </div>
+<!-- BACKGROUND VIDEO -->
+<div id="overlay">
+<div class="fullscreen-bg">
+    <div class="videoContainer">
+        <iframe class="videoContainer__video" width="1920" height="1080" src="https://www.youtube.com/embed/-InoH7TEPXE?modestbranding=1&autoplay=1&controls=0&fs=0&loop=1&rel=0&showinfo=0&disablekb=0&mute=1" frameborder="0"></iframe>
+    </div>
+</div>
+</div>
+<!-- END BG VIDEO -->
+<!-- LOGO -->
+
+<img src="assets/logo.png" alt="" />
+</div>
+<!-- END LOGO -->
+<!-- BG AUDIO -->
+<script src="./script.js"></script>
+<audio id="music" src="assets/music.mp3" autoplay="true" hidden="true" loop="true" />
+<script>
+    var play = true;
+    var myAudio = document.getElementById("music");
+    myAudio.volume = 0.3;
+
+    function onKeyDown(event) {
+        switch (event.keyCode) {
+             case 32: //SpaceBar                    
+                if (play) {
+                    myAudio.pause();
+                    play = false;
+                } else {
+                    myAudio.play();
+                    play = true;
+                }
+                break;
+        }
+        return false;
+    }
+    window.addEventListener("keydown", onKeyDown, false);
+
+    function onPopup(event) {
+        switch (event.keyCode) {
+             case 80: //P                    
+                popup.openPopup()
+        }
+        return false;
+    }
+    window.addEventListener("keydown", onPopup, false);
+</script>
+
+<!-- END BG AUDIO -->
+<!-- START JS -->
+    <script src="js/main.js"></script>
+<!-- END JS -->    
+
+</body>
+</html>
