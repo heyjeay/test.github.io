@@ -14,7 +14,12 @@ async function checkLiveStreamers() {
             cache: 'no-store'
         });
         const data = await response.json();
-        return (data.data && data.data.length > 0) ? data.data[0].user_login : null;
+        if (data.data && data.data.length > 0) {
+            const streamData = await fetch(`https://api.twitch.tv/helix/videos?user_id=${data.data[0].user_id}`, { headers });
+            const videoData = await streamData.json();
+            return videoData.data[0].url;
+        }
+        return null;
     } catch (error) {
         return null;
     }
@@ -24,17 +29,14 @@ function updateStreamDisplay() {
     const twitchContainer = document.getElementById('twitch-embed');
     const fallbackVideo = document.getElementById('fallbackVideo');
 
-    checkLiveStreamers().then(liveStreamer => {
-        if (liveStreamer) {
+    checkLiveStreamers().then(streamUrl => {
+        if (streamUrl) {
             fallbackVideo.style.display = 'none';
             twitchContainer.style.display = 'block';
             twitchContainer.innerHTML = `
-            <iframe
-                src="https://player.twitch.tv/?channel=${liveStreamer}&parent=heyjeay.github.io&muted=true&mature=true"
-                height="100%"
-                width="100%"
-                allowfullscreen>
-            </iframe>`;
+                <video id="twitch-video" width="100%" height="100%" autoplay controls>
+                    <source src="${streamUrl}" type="application/x-mpegURL">
+                </video>`;
         } else {
             twitchContainer.style.display = 'none';
             fallbackVideo.style.display = 'block';
