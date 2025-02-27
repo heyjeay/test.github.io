@@ -1,33 +1,70 @@
+<html>
 <head>
-          <meta name="viewport" content="width=device-width,initial-scale=1">
-          <link rel="stylesheet" href="css/style.css">
-          <!-- Add Twitch embed script -->
-          <script src="https://embed.twitch.tv/embed/v1.js"></script>
-      </head>
-      
-      <body>
-          <!-- Your existing content -->
-          <div id="balls" style="opacity: 0;"></div>
-          <h2 id="RM_FadeInOutContentDiv"></h2>
-          
-          <!-- Add twitch-embed container -->
-          <div id="twitch-embed"></div>
-          
-          <!-- Your existing video container -->
-          <div id="overlay">
-              <div class="fullscreen-bg">
-                  <div class="videoContainer" id="fallbackVideo">
-                      <iframe width="1920" height="1080"
-                          src="https://www.youtube.com/embed/-InoH7TEPXE?modestbranding=1&autoplay=1&controls=1&fs=0&loop=1&rel=0&showinfo=0&disablekb=0&mute=1&playsinline=1"
-                          frameborder="0"
-                          allow="autoplay">
-                      </iframe>
-                  </div>
-              </div>
-          </div>
-      
-          <!-- Load scripts in correct order -->
-          <script src="https://heyjeay.github.io/test.github.io/js/main.js"></script>
-          <script src="https://heyjeay.github.io/test.github.io/js/twitch.js"></script>
-      </body>
-      
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="balls" style="opacity: 0;"></div>
+    <h2 id="RM_FadeInOutContentDiv"></h2>
+
+    <!-- Twitch Container -->
+    <div id="twitch-embed"></div>
+
+    <!-- Background Video -->
+    <div id="overlay">
+        <div class="fullscreen-bg">
+            <div class="videoContainer" id="fallbackVideo">
+                <iframe width="1920" height="1080"
+                    src="https://www.youtube.com/embed/-InoH7TEPXE?modestbranding=1&autoplay=1&controls=1&fs=0&loop=1&rel=0&showinfo=0&disablekb=0&mute=1&playsinline=1"
+                    frameborder="0"
+                    allow="autoplay">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logo -->
+    <img src="assets/logo.png" alt="" />
+
+    <!-- Background Audio -->
+    <audio id="music" src="assets/music.mp3" autoplay="true" hidden="true" loop="true"></audio>
+
+    <!-- Audio Controls -->
+    <script>
+        var play = true;
+        var myAudio = document.getElementById("music");
+        myAudio.volume = 0.3;
+
+        function onKeyDown(event) {
+            switch (event.keyCode) {
+                case 32: //SpaceBar                    
+                    if (play) {
+                        myAudio.pause();
+                        play = false;
+                    } else {
+                        myAudio.play();
+                        play = true;
+                    }
+                    break;
+            }
+            return false;
+        }
+        window.addEventListener("keydown", onKeyDown, false);
+
+        function onPopup(event) {
+            switch (event.keyCode) {
+                case 80: //P                    
+                    popup.openPopup()
+            }
+            return false;
+        }
+        window.addEventListener("keydown", onPopup, false);
+    </script>
+
+    <!-- JavaScript -->
+    <script src="https://heyjeay.github.io/test.github.io/js/main.js"></script>
+    <script src="https://heyjeay.github.io/test.github.io/js/twitch.js"></script>
+
+</body>
+</html>
