@@ -5,18 +5,13 @@ async function checkLiveStreamers() {
     const accessToken = 'g8h3swjn3jsz531hgvb6auian7ep4a';
     const headers = { 
         'Client-ID': clientId, 
-        'Authorization': `Bearer ${accessToken}`,
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
+        'Authorization': `Bearer ${accessToken}`
     };
 
     try {
         const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamers.join('&user_login=')}`, { 
-            method: 'GET',
             headers,
-            mode: 'cors',
-            credentials: 'same-origin'
+            cache: 'no-store'
         });
         const data = await response.json();
         return (data.data && data.data.length > 0) ? data.data[0].user_login : null;
@@ -33,19 +28,13 @@ function updateStreamDisplay() {
         if (liveStreamer) {
             fallbackVideo.style.display = 'none';
             twitchContainer.style.display = 'block';
-            twitchContainer.innerHTML = '';
-            
-            new Twitch.Embed("twitch-embed", {
-                width: "100%",
-                height: "100%",
-                channel: liveStreamer,
-                layout: "video",
-                autoplay: true,
-                muted: true,
-                parent: ["heyjeay.github.io/test.github.io"],
-                controls: true,
-                matureContent: true
-            });
+            twitchContainer.innerHTML = `
+                <iframe
+                    src="https://player.twitch.tv/?channel=${liveStreamer}&parent=heyjeay.github.io&muted=true"
+                    height="100%"
+                    width="100%"
+                    allowfullscreen>
+                </iframe>`;
         } else {
             twitchContainer.style.display = 'none';
             fallbackVideo.style.display = 'block';
