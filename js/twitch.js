@@ -37,6 +37,16 @@ function updateStreamDisplay() {
                 <video id="twitch-video" width="100%" height="100%" autoplay controls>
                     <source src="${streamUrl}" type="application/x-mpegURL">
                 </video>`;
+            
+            const video = document.getElementById('twitch-video');
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(streamUrl);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play();
+                });
+            }
         } else {
             twitchContainer.style.display = 'none';
             fallbackVideo.style.display = 'block';
