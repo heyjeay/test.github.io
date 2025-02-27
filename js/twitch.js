@@ -42,7 +42,7 @@ function updateStreamDisplay() {
                 layout: "video",
                 autoplay: true,
                 muted: true,
-                parent: ["heyjeay.github.io"],
+                parent: ["heyjeay.github.io/test.github.io"],
                 controls: true
             });
         } else {
