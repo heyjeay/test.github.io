@@ -1,4 +1,4 @@
-const streamers = ['penta', 'shroud', 'dgthe99'];
+const streamers = ['penta', 'shroud', 'dgthe99','teegrizzley','prawln','richopov'];
 
 async function checkLiveStreamers() {
     const clientId = 'gp762nuuoqcoxypju8c569th9wz7q5';
